@@ -8,8 +8,8 @@ public class Rectangle implements Shape {
     private int ancho;
 
     public Rectangle(int alto, int ancho) {
-        this.alto = alto;
-        this.ancho = ancho;
+        this.alto = Shape.esValido(alto)?alto:2;
+        this.ancho = Shape.esValido(ancho)?ancho:3;
     }
 
     @Override
@@ -44,11 +44,17 @@ public class Rectangle implements Shape {
     }
 
     //ESTA FUNCION SOLO EXISTE EN LA IMPLEMENTACION
-    public void imprimirDatos(){
+    private void imprimirDatos(){
         System.out.println("\nDatos del Rectangulo");
         System.out.println("----------------------");
         System.out.println("Alto: " + this.alto);
         System.out.println("Ancho: " + this.ancho);
         System.out.println("----------------------\n");
+    }
+
+    @Override
+    public void imprimirNombre() {
+        Shape.super.imprimirNombre();
+        imprimirDatos();
     }
 }
