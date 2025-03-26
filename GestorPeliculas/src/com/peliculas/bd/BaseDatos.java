@@ -50,4 +50,21 @@ public class BaseDatos {
         }
         return peliculas;
     }
+
+    public void crearPelicula(Pelicula nueva){
+        try{
+            PreparedStatement operacion = conectar("INSERT INTO peliculas (nombre, descripcion, calificacion, genero) VALUES (?, ?, ?, ?) ");
+            operacion.setString(1, nueva.nombre());
+            operacion.setString(2, nueva.descripcion());
+            operacion.setInt(3, nueva.calificacion());
+            operacion.setString(4, nueva.genero());
+
+            operacion.executeUpdate(); //EJECUTE CAMBIOS EN LA BASE DE DATOS
+            conexion.commit();//GUARDAR
+            conexion.close();//CIERRO LA CONEXION
+        }catch (Exception e){
+            System.err.println("Error al crear una pelicula.");
+            System.err.println(e.getLocalizedMessage());
+        }
+    }
 }
