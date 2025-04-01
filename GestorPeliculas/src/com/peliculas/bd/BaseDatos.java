@@ -23,7 +23,7 @@ public class BaseDatos {
             if(conexion != null){
                 conexion.close();
             }
-            conexion = DriverManager.getConnection("jdbc:ucanaccess://C:/bd/gestor_peliculas.accdb"); //ESTA LINEA SE DEBERIA DE CAMBIAR PARA ELEGIR OTRA TECNOLOGIA DE BD
+            conexion = DriverManager.getConnection("jdbc:ucanaccess://C:/projects/bd/gestor_peliculas.accdb"); //ESTA LINEA SE DEBERIA DE CAMBIAR PARA ELEGIR OTRA TECNOLOGIA DE BD
             operacion = conexion.prepareStatement(operacionSQL);
 
         }catch(Exception e){
@@ -64,6 +64,50 @@ public class BaseDatos {
             conexion.close();//CIERRO LA CONEXION
         }catch (Exception e){
             System.err.println("Error al crear una pelicula.");
+            System.err.println(e.getLocalizedMessage());
+        }
+    }
+
+    public void modificarPelicula(Pelicula peliculaActualizar) {
+        try{
+            PreparedStatement operacion = conectar("UPDATE peliculas SET descripcion = ?, calificacion = ?, genero = ? WHERE nombre = ?");
+            operacion.setString(1, peliculaActualizar.descripcion());
+            operacion.setInt(2, peliculaActualizar.calificacion());
+            operacion.setString(3, peliculaActualizar.genero());
+            operacion.setString(4, peliculaActualizar.nombre());
+
+            operacion.executeUpdate(); //EJECUTE CAMBIOS EN LA BASE DE DATOS
+            conexion.commit();//GUARDAR
+            conexion.close();//CIERRO LA CONEXION
+        }catch (Exception e){
+            System.err.println("Error al actualizar una pelicula.");
+            System.err.println(e.getLocalizedMessage());
+        }
+    }
+
+    public void eliminarPelicula(Pelicula peliculaSeleccionada) {
+        try{
+            PreparedStatement operacion = conectar("DELETE FROM peliculas WHERE nombre = ?");
+            operacion.setString(1, peliculaSeleccionada.nombre());
+
+            operacion.executeUpdate(); //EJECUTE CAMBIOS EN LA BASE DE DATOS
+            conexion.commit();//GUARDAR
+            conexion.close();//CIERRO LA CONEXION
+        }catch (Exception e){
+            System.err.println("Error al borrar una pelicula.");
+            System.err.println(e.getLocalizedMessage());
+        }
+    }
+
+    public void eliminarTodasLasPeliculas() {
+        try{
+            PreparedStatement operacion = conectar("DELETE FROM peliculas");
+
+            operacion.executeUpdate(); //EJECUTE CAMBIOS EN LA BASE DE DATOS
+            conexion.commit();//GUARDAR
+            conexion.close();//CIERRO LA CONEXION
+        }catch (Exception e){
+            System.err.println("Error al borrar una pelicula.");
             System.err.println(e.getLocalizedMessage());
         }
     }

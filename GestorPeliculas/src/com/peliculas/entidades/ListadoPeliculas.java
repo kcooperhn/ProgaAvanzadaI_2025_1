@@ -33,7 +33,7 @@ public class ListadoPeliculas {
    }
 
    public void imprimirPelicula(int posicion){
-        if(posicion >= 0 && posicion < peliculas.size()){
+        if(posicion >= 0 && posicion < peliculas.size() + 1){
             Pelicula seleccionada = peliculas.get(posicion-1);
 
             System.out.println("____________________________________________________");
@@ -46,4 +46,23 @@ public class ListadoPeliculas {
             System.err.println("No existe el pelicula con el id "+posicion);
         }
    }
+
+    public void modificarPelicula(Pelicula peliculaActualizar, int posicion) {
+        this.peliculas.remove(posicion);
+        this.peliculas.add(posicion, peliculaActualizar);
+
+        this.bd.modificarPelicula(peliculaActualizar);
+    }
+
+    public void eliminarPelicula(Pelicula peliculaSeleccionada, int posicion) {
+        this.peliculas.remove(posicion);
+
+        this.bd.eliminarPelicula(peliculaSeleccionada);
+    }
+
+    public void eliminarTodasLasPeliculas() {
+        this.peliculas.clear();
+
+        this.bd.eliminarTodasLasPeliculas();
+    }
 }
